@@ -29,6 +29,7 @@ public class OrderService {
             log.info("잔고 부족 비즈니스 예외 발생");
             order.setPayStatus("대기");
             throw new NotEnoughMoneyException("잔고가 부족합니다.");
+            //return "잔고부족"; 등으로 상태를 넘기기도 한다.
         }else{
             //정상 승인
             log.info("정상 승인");
