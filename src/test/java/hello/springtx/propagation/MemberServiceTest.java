@@ -38,9 +38,9 @@ class MemberServiceTest {
 
     }
     /**
-     * memberService    @Transactional : OFF
-     * memberRepository @Transactional : ON
-     * logRepository    @Transactional : ON Exception
+     * memberService    @Transactional : ON
+     * memberRepository @Transactional : OFF
+     * logRepository    @Transactional : OFF
      */
     @Test
     void outerTxOff_fail(){
@@ -53,5 +53,21 @@ class MemberServiceTest {
         //then: Member는 저장이 되지만 Log는 롤백이 된다.
         Assertions.assertTrue(memberRepository.find(username).isPresent());
         Assertions.assertTrue(logRepository.find(username).isEmpty());
+    }
+    /**
+     * memberService    @Transactional : OFF
+     * memberRepository @Transactional : ON
+     * logRepository    @Transactional : ON
+     */
+    @Test
+    void singleTx(){
+        //given
+        String username = "outerTxOff_success";
+        //when
+        memberService.joinV1(username);
+        //JUNIT걸 쓰면 assertTrue 라는 게 있다.
+        //then: 모든 데이터가 정상 저장된다.
+        Assertions.assertTrue(memberRepository.find(username).isPresent());
+        Assertions.assertTrue(logRepository.find(username).isPresent());
     }
 }
